@@ -49,6 +49,12 @@ class LicensePresenter extends Presenter
                 'title' => trans('admin/licenses/form.expiration'),
                 'formatter' => 'dateDisplayFormatter',
             ], [
+                'field' => 'status',
+                'searchable' => false,
+                'sortable' => true,
+                'title' => trans('general.status'),
+                'formatter' => 'licenseStatusFormatter',
+            ], [
                 'field' => 'license_email',
                 'searchable' => true,
                 'sortable' => true,

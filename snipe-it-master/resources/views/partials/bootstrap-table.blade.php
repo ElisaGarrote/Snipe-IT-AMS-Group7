@@ -828,6 +828,26 @@
         }
     }
 
+    function licenseStatusFormatter(value, row) {
+        // Use the existing expiration_date field from the row
+        if (!row.expiration_date || !row.expiration_date.date) {
+            return '<span class="label label-default" style="white-space: nowrap;"><i class="fas fa-infinity"></i> No Expiry</span>';
+        }
+
+        var now = new Date();
+        var expirationDate = new Date(row.expiration_date.date);
+        var timeDiff = expirationDate.getTime() - now.getTime();
+        var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+        if (daysDiff < 0) {
+            return '<span class="label label-danger" style="white-space: nowrap;"><i class="fas fa-times-circle"></i> Expired</span>';
+        } else if (daysDiff <= 30) {
+            return '<span class="label label-warning" style="white-space: nowrap;"><i class="fas fa-exclamation-triangle"></i> Expiring Soon</span>';
+        } else {
+            return '<span class="label label-success" style="white-space: nowrap;"><i class="fas fa-check-circle"></i> Active</span>';
+        }
+    }
+
     function linkFormatter(value) {
         if (value) {
             return '<a href="' + value + '">' + value + '</a>';
