@@ -49,4 +49,8 @@ return array(
 
     'below_threshold' => 'There are only :remaining_count seats left for this license with a minimum quantity of :min_amt. You may want to consider purchasing more seats.',
     'below_threshold_short' => 'This item is below the minimum required quantity.',
+    'active' => 'Active',
+    'expiring_soon' => 'Expiring Soon',
+    'expired' => 'Expired',
+    'no_expiry' => 'No Expiry',
 );
