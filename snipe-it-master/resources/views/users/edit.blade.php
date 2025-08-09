@@ -743,6 +743,17 @@ $(document).ready(function() {
         });
     });
 
+    // Handle superuser permission changes
+    $('input[name="permission[superuser]"]').change(function() {
+        var perms = $(this).val();
+        if (perms == '1') {
+            $("#nonadmin").hide();
+            // Set all permission radio buttons to "grant" (value="1")
+            $('.permissions input[type="radio"][value="1"]').prop('checked', true);
+        } else {
+            $("#nonadmin").show();
+        }
+    });
 
 });
 </script>
