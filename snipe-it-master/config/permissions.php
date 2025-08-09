@@ -27,6 +27,24 @@ return [
         ],
     ],
 
+    'Operator' => [
+        [
+            'permission' => 'operator',
+            'label'      => '',
+            'note'       => 'Operator access with elevated permissions below admin level.',
+            'display'    => true,
+        ],
+    ],
+
+    'Regular User' => [
+        [
+            'permission' => 'regular_user',
+            'label'      => '',
+            'note'       => 'Basic user access with limited permissions.',
+            'display'    => true,
+        ],
+    ],
+
     'CSV Import' => [
         [
             'permission' => 'import',

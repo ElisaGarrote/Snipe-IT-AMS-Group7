@@ -54,4 +54,7 @@ return [
     'all_assigned_list_generation' => 'Generated on:',
     'email_user_creds_on_create' => 'Email this user their credentials?',
     'department_manager' => 'Department Manager',
+    'regular_user' => 'Regular User',
+    'operator' => 'Operator',
+    'operator_permission_warning' => 'Only users with admin rights or greater may grant a user operator access.',
 ];
