@@ -56,10 +56,18 @@
     .table > tbody > tr > td.permissions-item {
       padding: 1px;
       padding-left: 8px;
+      border-top: none;
     }
 
     .header-name {
       cursor: pointer;
+    }
+
+    .permissions-row:has(input[type="radio"][value="1"]:checked) {
+        background-color: #d4edda !important;
+    }
+    .permissions-row:has(input[type="radio"][value="1"]:checked) td {
+        background-color: #d4edda !important;
     }
 
 </style>
