@@ -147,10 +147,36 @@
 </div>
 
 <!-- Second row of alert cards (UI only, no links) -->
-<div class="row">
+<style>
+  /* Make five cards sit in one row on large screens */
+  @media (min-width: 1200px) {
+    .row.five-cards .five-col { width: 20%; }
+  }
+  /* Ensure expected float behavior consistent with Bootstrap 3 grid */
+  .row.five-cards .five-col { float: left; }
+</style>
+<div class="row five-cards">
+
+    <!-- Overdue Check-in card -->
+    <div class="five-col col-xs-6">
+        <div class="dashboard small-box" style="background-color:#E53935;">
+            <div class="inner">
+                <h3>{{ number_format(\App\Models\Asset::OverdueForCheckin()->count()) }}</h3>
+                <p>{{ trans('general.overdue_checkin') }}</p>
+            </div>
+            <div class="icon" aria-hidden="true">
+                <x-icon type="warning" />
+            </div>
+            <span class="small-box-footer">
+                {{ trans('general.view_all') }}
+                <x-icon type="arrow-circle-right" />
+            </span>
+        </div>
+    </div><!-- ./col -->
+
 
     <!-- Overdue Audit card -->
-    <div class="col-lg-3 col-xs-6">
+    <div class="five-col col-xs-6">
         <div class="dashboard small-box bg-red">
             <div class="inner">
                 <h3>{{ number_format(\App\Models\Asset::where('next_audit_date', '<', now())->whereNotNull('next_audit_date')->count()) }}</h3>
@@ -167,7 +193,7 @@
     </div><!-- ./col -->
 
     <!-- Reached EoL card -->
-    <div class="col-lg-3 col-xs-6">
+    <div class="five-col col-xs-6">
         <div class="dashboard small-box" style="background-color:#DC143C;">
             <div class="inner">
                 <h3>{{ number_format(\App\Models\Asset::whereNotNull('asset_eol_date')->where('asset_eol_date', '<=', now())->count()) }}</h3>
@@ -184,7 +210,7 @@
     </div><!-- ./col -->
 
     <!-- Expired Warranty card -->
-    <div class="col-lg-3 col-xs-6">
+    <div class="five-col col-xs-6">
         <div class="dashboard small-box" style="background-color:#B22222;">
             <div class="inner">
                 <h3>{{ number_format(\App\Models\Asset::whereNotNull('warranty_months')->whereRaw('DATE_ADD(purchase_date, INTERVAL warranty_months MONTH) < NOW()')->count()) }}</h3>
@@ -201,7 +227,7 @@
     </div><!-- ./col -->
 
     <!-- Low Stock card -->
-    <div class="col-lg-3 col-xs-6">
+    <div class="five-col col-xs-6">
         <div class="dashboard small-box" style="background-color:#FF4040;">
             <div class="inner">
                 <h3>{{ number_format(\App\Models\Consumable::whereColumn('qty', '<=', 'min_amt')->where('min_amt', '>', 0)->count()) }}</h3>
@@ -365,7 +391,7 @@
     <div class="col-md-6">
 
 		@if ((($snipeSettings->scope_locations_fmcs!='1') && ($snipeSettings->full_multiple_companies_support=='1')))
-			 <!-- Companies -->	
+			 <!-- Companies -->
 			<div class="box box-default">
 				<div class="box-header with-border">
 					<h2 class="box-title">{{ trans('general.companies') }}</h2>
@@ -431,7 +457,7 @@
 
 				</div><!-- /.box-body -->
 			</div> <!-- /.box -->
-		
+
 		@else
 			 <!-- Locations -->
 			 <div class="box box-default">
@@ -462,21 +488,21 @@
 								<thead>
 								<tr>
 									<th class="col-sm-3" data-visible="true" data-field="name" data-formatter="locationsLinkFormatter" data-sortable="true">{{ trans('general.name') }}</th>
-									
+
 									<th class="col-sm-1" data-visible="true" data-field="assets_count" data-sortable="true">
                                         <x-icon type="assets" />
 										<span class="sr-only">{{ trans('general.asset_count') }}</span>
 									</th>
 									<th class="col-sm-1" data-visible="true" data-field="assigned_assets_count" data-sortable="true">
-										
+
 										{{ trans('general.assigned') }}
 									</th>
 									<th class="col-sm-1" data-visible="true" data-field="users_count" data-sortable="true">
                                         <x-icon type="users" />
 										<span class="sr-only">{{ trans('general.people') }}</span>
-										
+
 									</th>
-									
+
 								</tr>
 								</thead>
 							</table>
@@ -491,7 +517,7 @@
 			</div> <!-- /.box -->
 
 		@endif
-			
+
     </div>
     <div class="col-md-6">
 

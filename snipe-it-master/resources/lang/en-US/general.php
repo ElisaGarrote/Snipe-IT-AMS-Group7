@@ -405,6 +405,7 @@ return [
     'new_consumable'        => 'New Consumable',
     'new_component'         => 'New Component',
     'new_user'              => 'New User',
+    'overdue_checkin'      => 'Overdue Check-in',
     'overdue_audit'         => 'Overdue Audit',
     'reached_eol'           => 'Reached EoL',
     'expired_warranty'      => 'Expired Warranty',
