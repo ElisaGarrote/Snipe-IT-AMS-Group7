@@ -144,22 +144,6 @@
         </a>
     </div><!-- ./col -->
 
-    <div class="col-lg-2 col-xs-6">
-        <!-- Overdue for Check-in box triggers modal -->
-            <div class="dashboard small-box bg-red" id="overdueCheckinTrigger" data-toggle="modal" data-target="#overdueCheckinModal" style="cursor:pointer;">
-                <div class="inner">
-                    <h3>{{ number_format($total_overdue_for_checkin ?? 0) }}</h3>
-                    <p>Overdue for Check-in</p>
-                </div>
-                <div class="icon" aria-hidden="true">
-                    <x-icon type="users" />
-                </div>
-                <span class="small-box-footer">
-                    View details
-                    <x-icon type="arrow-circle-right" />
-                </span>
-            </div>
-    </div><!-- ./col -->
 </div>
 
 <!-- Second row of alert cards (UI only, no links) -->
@@ -175,7 +159,7 @@
 
     <!-- Overdue Check-in card -->
     <div class="five-col col-xs-6">
-        <div class="dashboard small-box" style="background-color:#E53935;">
+        <div class="dashboard small-box" style="background-color:#E53935; cursor:pointer;" id="overdueCheckinTrigger" data-toggle="modal" data-target="#overdueCheckinModal">
             <div class="inner">
                 <h3>{{ number_format(\App\Models\Asset::OverdueForCheckin()->count()) }}</h3>
                 <p>{{ trans('general.overdue_checkin') }}</p>
@@ -605,8 +589,6 @@
 
 
 @endif
-
-
 
 <!-- Overdue for Check-in Modal -->
 <div class="modal fade" id="overdueCheckinModal" tabindex="-1" role="dialog" aria-labelledby="overdueCheckinModalLabel" aria-hidden="true">
