@@ -145,6 +145,78 @@
     </div><!-- ./col -->
 
 </div>
+
+<!-- Second row of alert cards (UI only, no links) -->
+<div class="row">
+
+    <!-- Overdue Audit card -->
+    <div class="col-lg-3 col-xs-6">
+        <div class="dashboard small-box bg-red">
+            <div class="inner">
+                <h3>{{ number_format(\App\Models\Asset::where('next_audit_date', '<', now())->whereNotNull('next_audit_date')->count()) }}</h3>
+                <p>{{ trans('general.overdue_audit') }}</p>
+            </div>
+            <div class="icon" aria-hidden="true">
+                <x-icon type="due" />
+            </div>
+            <span class="small-box-footer">
+                {{ trans('general.view_all') }}
+                <x-icon type="arrow-circle-right" />
+            </span>
+        </div>
+    </div><!-- ./col -->
+
+    <!-- Reached EoL card -->
+    <div class="col-lg-3 col-xs-6">
+        <div class="dashboard small-box" style="background-color:#DC143C;">
+            <div class="inner">
+                <h3>{{ number_format(\App\Models\Asset::whereNotNull('asset_eol_date')->where('asset_eol_date', '<=', now())->count()) }}</h3>
+                <p>{{ trans('general.reached_eol') }}</p>
+            </div>
+            <div class="icon" aria-hidden="true">
+                <x-icon type="calendar" />
+            </div>
+            <span class="small-box-footer">
+                {{ trans('general.view_all') }}
+                <x-icon type="arrow-circle-right" />
+            </span>
+        </div>
+    </div><!-- ./col -->
+
+    <!-- Expired Warranty card -->
+    <div class="col-lg-3 col-xs-6">
+        <div class="dashboard small-box" style="background-color:#B22222;">
+            <div class="inner">
+                <h3>{{ number_format(\App\Models\Asset::whereNotNull('warranty_months')->whereRaw('DATE_ADD(purchase_date, INTERVAL warranty_months MONTH) < NOW()')->count()) }}</h3>
+                <p>{{ trans('general.expired_warranty') }}</p>
+            </div>
+            <div class="icon" aria-hidden="true">
+                <x-icon type="due" />
+            </div>
+            <span class="small-box-footer">
+                {{ trans('general.view_all') }}
+                <x-icon type="arrow-circle-right" />
+            </span>
+        </div>
+    </div><!-- ./col -->
+
+    <!-- Low Stock card -->
+    <div class="col-lg-3 col-xs-6">
+        <div class="dashboard small-box" style="background-color:#FF4040;">
+            <div class="inner">
+                <h3>{{ number_format(\App\Models\Consumable::whereColumn('qty', '<=', 'min_amt')->where('min_amt', '>', 0)->count()) }}</h3>
+                <p>{{ trans('general.low_stock') }}</p>
+            </div>
+            <div class="icon" aria-hidden="true">
+                <x-icon type="long-arrow-right" style="transform: rotate(90deg);" />
+            </div>
+            <span class="small-box-footer">
+                {{ trans('general.view_all') }}
+                <x-icon type="arrow-circle-right" />
+            </span>
+        </div>
+    </div><!-- ./col -->
+
 </div>
 
 @if ($counts['grand_total'] == 0)
