@@ -161,6 +161,104 @@
             </div>
     </div><!-- ./col -->
 </div>
+
+<!-- Second row of alert cards (UI only, no links) -->
+<style>
+  /* Make five cards sit in one row on large screens */
+  @media (min-width: 1200px) {
+    .row.five-cards .five-col { width: 20%; }
+  }
+  /* Ensure expected float behavior consistent with Bootstrap 3 grid */
+  .row.five-cards .five-col { float: left; }
+</style>
+<div class="row five-cards">
+
+    <!-- Overdue Check-in card -->
+    <div class="five-col col-xs-6">
+        <div class="dashboard small-box" style="background-color:#E53935;">
+            <div class="inner">
+                <h3>{{ number_format(\App\Models\Asset::OverdueForCheckin()->count()) }}</h3>
+                <p>{{ trans('general.overdue_checkin') }}</p>
+            </div>
+            <div class="icon" aria-hidden="true">
+                <x-icon type="warning" />
+            </div>
+            <span class="small-box-footer">
+                {{ trans('general.view_all') }}
+                <x-icon type="arrow-circle-right" />
+            </span>
+        </div>
+    </div><!-- ./col -->
+
+
+    <!-- Overdue Audit card -->
+    <div class="five-col col-xs-6">
+        <div class="dashboard small-box bg-red">
+            <div class="inner">
+                <h3>{{ number_format(\App\Models\Asset::where('next_audit_date', '<', now())->whereNotNull('next_audit_date')->count()) }}</h3>
+                <p>{{ trans('general.overdue_audit') }}</p>
+            </div>
+            <div class="icon" aria-hidden="true">
+                <x-icon type="due" />
+            </div>
+            <span class="small-box-footer">
+                {{ trans('general.view_all') }}
+                <x-icon type="arrow-circle-right" />
+            </span>
+        </div>
+    </div><!-- ./col -->
+
+    <!-- Reached EoL card -->
+    <div class="five-col col-xs-6">
+        <div class="dashboard small-box" style="background-color:#DC143C;">
+            <div class="inner">
+                <h3>{{ number_format(\App\Models\Asset::whereNotNull('asset_eol_date')->where('asset_eol_date', '<=', now())->count()) }}</h3>
+                <p>{{ trans('general.reached_eol') }}</p>
+            </div>
+            <div class="icon" aria-hidden="true">
+                <x-icon type="calendar" />
+            </div>
+            <span class="small-box-footer">
+                {{ trans('general.view_all') }}
+                <x-icon type="arrow-circle-right" />
+            </span>
+        </div>
+    </div><!-- ./col -->
+
+    <!-- Expired Warranty card -->
+    <div class="five-col col-xs-6">
+        <div class="dashboard small-box" style="background-color:#B22222;">
+            <div class="inner">
+                <h3>{{ number_format(\App\Models\Asset::whereNotNull('warranty_months')->whereRaw('DATE_ADD(purchase_date, INTERVAL warranty_months MONTH) < NOW()')->count()) }}</h3>
+                <p>{{ trans('general.expired_warranty') }}</p>
+            </div>
+            <div class="icon" aria-hidden="true">
+                <x-icon type="due" />
+            </div>
+            <span class="small-box-footer">
+                {{ trans('general.view_all') }}
+                <x-icon type="arrow-circle-right" />
+            </span>
+        </div>
+    </div><!-- ./col -->
+
+    <!-- Low Stock card -->
+    <div class="five-col col-xs-6">
+        <div class="dashboard small-box" style="background-color:#FF4040;">
+            <div class="inner">
+                <h3>{{ number_format(\App\Models\Consumable::whereColumn('qty', '<=', 'min_amt')->where('min_amt', '>', 0)->count()) }}</h3>
+                <p>{{ trans('general.low_stock') }}</p>
+            </div>
+            <div class="icon" aria-hidden="true">
+                <x-icon type="long-arrow-right" style="transform: rotate(90deg);" />
+            </div>
+            <span class="small-box-footer">
+                {{ trans('general.view_all') }}
+                <x-icon type="arrow-circle-right" />
+            </span>
+        </div>
+    </div><!-- ./col -->
+
 </div>
 
 @if ($counts['grand_total'] == 0)

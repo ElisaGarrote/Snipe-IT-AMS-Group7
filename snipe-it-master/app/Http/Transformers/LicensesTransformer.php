@@ -4,6 +4,7 @@ namespace App\Http\Transformers;
 
 use App\Helpers\Helper;
 use App\Models\License;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -36,6 +37,7 @@ class LicensesTransformer
             'purchase_cost_numeric' => $license->purchase_cost,
             'notes' => Helper::parseEscapedMarkedownInline($license->notes),
             'expiration_date' => Helper::getFormattedDateObject($license->expiration_date, 'date'),
+            'status' => $this->getLicenseStatus($license),
             'seats' => (int) $license->seats,
             'free_seats_count' => (int) $license->free_seats_count,
             'remaining' => (int) $license->free_seats_count,
@@ -75,6 +77,28 @@ class LicensesTransformer
         return (new DatatablesTransformer)->transformDatatables($licenses);
     }
 
+    /**
+     * Calculate license status based on expiration date
+     * @param License $license
+     * @return string
+     */
+    private function getLicenseStatus($license)
+    {
+        if (!$license->expiration_date) {
+            return 'no_expiry';
+        }
 
+        $now = Carbon::now();
+        $expirationDate = Carbon::parse($license->expiration_date);
+        $daysUntilExpiration = $now->diffInDays($expirationDate, false);
+
+        if ($daysUntilExpiration < 0) {
+            return 'expired';
+        } elseif ($daysUntilExpiration <= 30) {
+            return 'expiring_soon';
+        } else {
+            return 'active';
+        }
+    }
 
 }
