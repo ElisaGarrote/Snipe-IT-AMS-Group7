@@ -124,6 +124,8 @@ return [
     'download_all'		    => 'Download All',
     'editprofile'  			=> 'Edit Your Profile',
     'eol'					=> 'EOL',
+    'warranty_expires'      => 'Warranty Expires', //Customized Field
+    'warranty'              => 'Warranty', //Customized Field
     'email_domain'			=> 'Email Domain',
     'employee_number'       => 'Employee Number',
     'email_domain_help'		=> 'This is used to generate email addresses when importing',
