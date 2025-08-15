@@ -64,6 +64,7 @@ class AssetModelsTransformer
             ] : null,
             'default_fieldset_values' => $default_field_values,
             'eol' => ($assetmodel->eol > 0) ? $assetmodel->eol.' months' : 'None',
+            'model_warranty' => ($assetmodel->model_warranty > 0) ? $assetmodel->model_warranty . ' ' . trans_choice('general.month', $assetmodel->model_warranty) : '',
             'requestable' => ($assetmodel->requestable == '1') ? true : false,
             'notes' => Helper::parseEscapedMarkedownInline($assetmodel->notes),
             'created_by' => ($assetmodel->adminuser) ? [

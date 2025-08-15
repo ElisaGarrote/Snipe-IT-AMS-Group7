@@ -41,6 +41,7 @@ class AssetModelsController extends Controller
                 'model_number',
                 'min_amt',
                 'eol',
+                'model_warranty', //added
                 'notes',
                 'created_at',
                 'manufacturer',
@@ -59,6 +60,7 @@ class AssetModelsController extends Controller
             'models.model_number',
             'models.min_amt',
             'models.eol',
+            'models.model_warranty',
             'models.created_by',
             'models.requestable',
             'models.notes',

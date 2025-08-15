@@ -127,11 +127,11 @@ class AssetModelPresenter extends Presenter
                 'visible' => true,
             ],
             [
-                'field' => 'warranty_months', //Custom field for warranty in months
+                'field' => 'model_warranty', // matches the DB/model property
                 'searchable' => true,
                 'sortable' => true,
-                'visible' => false,
-                'title' => trans('admin/hardware/form.model_warranty'),
+                'visible' => true, 
+                'title' => 'Warranty',
             ],
             [
                 'field' => 'warranty_expires', //"
