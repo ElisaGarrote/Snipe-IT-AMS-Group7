@@ -7,6 +7,7 @@ use App\Models\AssetModel;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class AssetModelsTransformer
 {
@@ -65,6 +66,11 @@ class AssetModelsTransformer
             'default_fieldset_values' => $default_field_values,
             'eol' => ($assetmodel->eol > 0) ? $assetmodel->eol.' months' : 'None',
             'model_warranty' => ($assetmodel->model_warranty > 0) ? $assetmodel->model_warranty . ' ' . trans_choice('general.month', $assetmodel->model_warranty) : '',
+            // Return object with date and formatted month name so frontend formatter can use .formatted
+            'warranty_expires' => ($assetmodel->model_warranty > 0) ? [
+                'date' => Carbon::now()->addMonths($assetmodel->model_warranty)->format('Y-m-d'),
+                'formatted' => Carbon::now()->addMonths($assetmodel->model_warranty)->format('D M d, Y'),
+            ] : null,
             'requestable' => ($assetmodel->requestable == '1') ? true : false,
             'notes' => Helper::parseEscapedMarkedownInline($assetmodel->notes),
             'created_by' => ($assetmodel->adminuser) ? [

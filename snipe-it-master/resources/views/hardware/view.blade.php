@@ -930,17 +930,17 @@
                                             <div class="col-md-3">
                                                 <strong>
                                                     {{ trans('admin/hardware/form.warranty_expires') }}
-                                                    @if ($asset->purchase_date)
-                                                        {!! $asset->present()->warranty_expires() < date("Y-m-d") ? '<i class="fas fa-exclamation-triangle text-orange" aria-hidden="true"></i>' : '' !!}
+                                                    @php $warrantyDate = $asset->present()->warranty_expires(); @endphp
+                                                    @if ($warrantyDate)
+                                                        {!! \Carbon\Carbon::parse($warrantyDate)->lt(\Carbon\Carbon::now()) ? '<i class="fas fa-exclamation-triangle text-orange" aria-hidden="true"></i>' : '' !!}
                                                     @endif
-
                                                 </strong>
                                             </div>
                                             <div class="col-md-9">
-                                                @if ($asset->purchase_date)
-                                                    {{ Helper::getFormattedDateObject($asset->present()->warranty_expires(), 'date', false) }}
+                                                @if ($warrantyDate)
+                                                    {{ \Carbon\Carbon::parse($warrantyDate)->format('F Y') }}
                                                     -
-                                                    {{ Carbon::parse($asset->present()->warranty_expires())->diffForHumans(['parts' => 2]) }}
+                                                    {{ \Carbon\Carbon::parse($warrantyDate)->diffForHumans(['parts' => 2]) }}
                                                 @else
                                                     {{ trans('general.na_no_purchase_date') }}
                                                 @endif

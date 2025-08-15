@@ -81,7 +81,11 @@ class AssetsTransformer
             'alt_barcode' => ($setting->alt_barcode_enabled=='1') ? config('app.url').'/uploads/barcodes/'.str_slug($setting->alt_barcode).'-'.str_slug($asset->asset_tag).'.png' : null,
             'assigned_to' => $this->transformAssignedTo($asset),
             'warranty_months' =>  ($asset->warranty_months > 0) ? e($asset->warranty_months.' '.trans('admin/hardware/form.months')) : null,
-            'warranty_expires' => ($asset->warranty_months > 0) ? Helper::getFormattedDateObject($asset->warranty_expires, 'date') : null,
+            // Return object with date and formatted month name so frontend formatter can use .formatted
+            'warranty_expires' => ($asset->warranty_months > 0) ? ( $asset->warranty_expires ? [
+                'date' => Carbon::parse($asset->warranty_expires)->format('Y-m-d'),
+                'formatted' => Carbon::parse($asset->warranty_expires)->format('D M d, Y'),
+            ] : null) : null,
             'created_by' => ($asset->adminuser) ? [
                 'id' => (int) $asset->adminuser->id,
                 'name'=> e($asset->adminuser->present()->fullName()),
