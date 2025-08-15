@@ -712,3 +712,8 @@ Route::middleware(['auth'])->get(
     ->breadcrumbs(fn (Trail $trail) =>
     $trail->push('Home', route('home'))
     );
+
+Route::middleware(['auth'])->get(
+    '/groups/{id}/permissions',
+    [GroupsController::class, 'getPermissions']
+)->name('groups.permissions');
