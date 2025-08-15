@@ -197,7 +197,7 @@ class AssetPresenter extends Presenter
                 'searchable' => true,
                 'sortable' => true,
                 'visible' => false,
-                'title' => trans('admin/hardware/form.warranty'),
+                'title' => trans('admin/hardware/form.model_warranty'),
             ], [
                 'field' => 'warranty_expires',
                 'searchable' => false,
