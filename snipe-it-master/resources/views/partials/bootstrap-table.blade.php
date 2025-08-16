@@ -828,6 +828,45 @@
         }
     }
 
+    function licenseStatusFormatter(value, row) {
+        if (!value) {
+            return '';
+        }
+
+        var statusClass = '';
+        var statusText = '';
+        var statusIcon = '';
+
+        switch (value) {
+            case 'active':
+                statusClass = 'label-success';
+                statusText = '{{ trans('admin/licenses/general.active') }}';
+                statusIcon = '<i class="fas fa-check-circle"></i>';
+                break;
+            case 'expiring_soon':
+                statusClass = 'label-warning';
+                statusText = '{{ trans('admin/licenses/general.expiring_soon') }}';
+                statusIcon = '<i class="fas fa-exclamation-triangle"></i>';
+                break;
+            case 'expired':
+                statusClass = 'label-danger';
+                statusText = '{{ trans('admin/licenses/general.expired') }}';
+                statusIcon = '<i class="fas fa-times-circle"></i>';
+                break;
+            case 'no_expiry':
+                statusClass = 'label-default';
+                statusText = '{{ trans('admin/licenses/general.no_expiry') }}';
+                statusIcon = '<i class="fas fa-infinity"></i>';
+                break;
+            default:
+                statusClass = 'label-default';
+                statusText = value;
+                statusIcon = '';
+        }
+
+        return '<span class="label ' + statusClass + '" style="white-space: nowrap;">' + statusIcon + ' ' + statusText + '</span>';
+    }
+
     function linkFormatter(value) {
         if (value) {
             return '<a href="' + value + '">' + value + '</a>';
