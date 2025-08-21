@@ -113,7 +113,7 @@
 
   @else <!-- count($permissionsArray) == 1-->
   <tbody class="permissions-group">
-    <tr class="header-row permissions-row" data-permission="{{ $localPermission['permission'] }}">
+    <tr class="header-row permissions-row" data-area="{{ str_slug($area) }}">
       <td class="col-md-5 header-name">
         <h2> {{ $area }}</h2>
       </td>
@@ -150,7 +150,7 @@
     </tr>
 
     @foreach ($permissionsArray as $index => $permission)
-      <tr class="permissions-row" data-permission="{{ $localPermission['permission'] }}">
+      <tr class="permissions-row" data-permission="{{ $permission['permission'] }}">
         @if ($permission['display'])
           <td
             class="col-md-5 tooltip-base permissions-item"
