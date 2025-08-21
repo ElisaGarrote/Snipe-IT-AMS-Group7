@@ -65,13 +65,15 @@
 
     .permissions-row:has(input[type="radio"][value="1"]:checked) {
         background-color: #d4edda !important;
+        border-left: 4px solid #28a745 !important;
     }
     .permissions-row:has(input[type="radio"][value="1"]:checked) td {
         background-color: #d4edda !important;
     }
 
     .permission-inherited-grant {
-        background-color: #d4edda !important;
+        background-color: #d4edda !important; /* Light green background */
+        border-left: 4px solid #28a745 !important; /* Green left border */
     }
     .permission-inherited-grant td {
         background-color: #d4edda !important;
@@ -786,7 +788,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // The row containing those radios
             const row = radios[0].closest('tr.permissions-row');
-            if (!row || row.classList.contains('header-row')) return;
+            if (!row) return;
 
             // Which value is currently selected for the user?
             const selected = Array.from(radios).find(r => r.checked);
