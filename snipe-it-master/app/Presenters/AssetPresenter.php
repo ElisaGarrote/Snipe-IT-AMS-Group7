@@ -197,7 +197,7 @@ class AssetPresenter extends Presenter
                 'searchable' => true,
                 'sortable' => true,
                 'visible' => false,
-                'title' => trans('admin/hardware/form.warranty'),
+                'title' => trans('admin/hardware/form.model_warranty'),
             ], [
                 'field' => 'warranty_expires',
                 'searchable' => false,
@@ -636,11 +636,17 @@ class AssetPresenter extends Presenter
      */
     public function warranty_expires()
     {
-        if (($this->purchase_date) && ($this->warranty_months)) {
-            $date = date_create($this->purchase_date);
-            date_add($date, date_interval_create_from_date_string($this->warranty_months.' months'));
-
-            return date_format($date, 'Y-m-d');
+        // Compute warranty expiry relative to now using warranty_months so the value decrements over time
+        if ($this->warranty_months && (int) $this->warranty_months > 0) {
+            $date = \DateTime::createFromFormat('Y-m-d', \Carbon\Carbon::now()->format('Y-m-d')) ?: new \DateTime();
+            $intervalSpec = 'P' . (int) $this->warranty_months . 'M';
+            try {
+                $interval = new \DateInterval($intervalSpec);
+                $date->add($interval);
+                return $date->format('Y-m-d');
+            } catch (\Exception $e) {
+                return false;
+            }
         }
 
         return false;

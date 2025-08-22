@@ -34,6 +34,26 @@
     </div>
 </div>
 
+<!-- Warranty Expiration (Customized Field) -->
+<div class="form-group {{ $errors->has('model_warranty') ? ' has-error' : '' }}">
+    <label for="model_warranty" class="col-md-3 control-label">{{ trans('Warranty') }}</label>
+    <div class="col-md-3 col-sm-4 col-xs-7">
+        <div class="input-group">
+            <input class="form-control" type="text" 
+                   name="model_warranty" 
+                   id="model_warranty" 
+                   value="{{ old('model_warranty', isset($item->model_warranty) ? $item->model_warranty : '') }}" />
+            <span class="input-group-addon">
+                {{ trans('general.months') }}
+            </span>
+        </div>
+    </div>
+    <div class="col-md-9 col-md-offset-3">
+        {!! $errors->first('model_warranty', '<span class="alert-msg" aria-hidden="true"><br><i class="fas fa-times"></i> :message</span>') !!}
+    </div>
+</div>
+
+
 <!-- Custom Fieldset -->
 <!-- If $item->id is null we are cloning the model and we need the $model_id variable -->
 @livewire('custom-field-set-default-values-for-model', ["model_id" => $item->id ?? $model_id ?? null])

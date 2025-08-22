@@ -264,18 +264,29 @@ class Asset extends Depreciable
      */
     public function getWarrantyExpiresAttribute()
     {
-        if (isset($this->attributes['warranty_months']) && isset($this->attributes['purchase_date'])) {
-            if (is_string($this->attributes['purchase_date']) || is_string($this->attributes['purchase_date'])) {
-                $purchase_date = \Carbon\Carbon::parse($this->attributes['purchase_date']);
-            } else {
-                $purchase_date = \Carbon\Carbon::instance($this->attributes['purchase_date']);
-            }
-            $purchase_date->setTime(0, 0, 0);
-
-            return $purchase_date->addMonths((int) $this->attributes['warranty_months']);
+        // Compute warranty expiry relative to now using warranty_months.
+        // This makes the "Warranty Expires" value decrement over time automatically.
+        if (isset($this->attributes['warranty_months']) && (int) $this->attributes['warranty_months'] > 0) {
+            return Carbon::now()->addMonths((int) $this->attributes['warranty_months'])->startOfDay();
         }
 
         return null;
+    }
+
+
+    /**
+     * Returns warranty expiration date calculated from now (Carbon object) using warranty_months.
+     * This will automatically decrement over time since it's calculated relative to now.
+     *
+     * @return \Carbon\Carbon|null
+     */
+    public function getWarrantyExpiresFromNowAttribute()
+    {
+        if (empty($this->attributes['warranty_months']) || (int) $this->attributes['warranty_months'] <= 0) {
+            return null;
+        }
+
+        return Carbon::now()->addMonths((int) $this->attributes['warranty_months'])->startOfDay();
     }
 
 

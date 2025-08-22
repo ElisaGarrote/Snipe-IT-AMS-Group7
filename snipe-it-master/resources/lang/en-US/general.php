@@ -124,6 +124,8 @@ return [
     'download_all'		    => 'Download All',
     'editprofile'  			=> 'Edit Your Profile',
     'eol'					=> 'EOL',
+    'warranty_expires'      => 'Warranty Expires', //Customized Field
+    'model_warranty'        => 'Warranty',
     'email_domain'			=> 'Email Domain',
     'employee_number'       => 'Employee Number',
     'email_domain_help'		=> 'This is used to generate email addresses when importing',
@@ -201,6 +203,7 @@ return [
     'min_amt_help'          => 'Minimum number of items that should be available before an alert gets triggered. Leave Min. QTY blank if you do not want to receive alerts for low inventory.',
     'model_no'				=> 'Model No.',
     'months'				=> 'months',
+    'month'                 => 'month|months',
     'moreinfo'				=> 'More Info',
     'name'					=> 'Name',
     'new_password'          => 'New Password',

@@ -159,7 +159,7 @@
 
     <!-- Overdue Check-in card -->
     <div class="five-col col-xs-6">
-        <div class="dashboard small-box" style="background-color:#E53935;">
+        <div class="dashboard small-box" style="background-color:#E53935; cursor:pointer;" id="overdueCheckinTrigger" data-toggle="modal" data-target="#overdueCheckinModal">
             <div class="inner">
                 <h3>{{ number_format(\App\Models\Asset::OverdueForCheckin()->count()) }}</h3>
                 <p>{{ trans('general.overdue_checkin') }}</p>
@@ -596,6 +596,49 @@
 
 @endif
 
+<!-- Overdue for Check-in Modal -->
+<div class="modal fade" id="overdueCheckinModal" tabindex="-1" role="dialog" aria-labelledby="overdueCheckinModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="overdueCheckinModalLabel">Overdue for Check-in
+          <small>&bull; Due threshold: {{ $snipeSettings->due_checkin_days ?? 0 }} days</small>
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table id="overdueCheckinTable"
+                 class="table table-striped snipe-table"
+                 data-cookie-id-table="dashboardOverdueCheckins"
+                 data-id-table="dashboardOverdueCheckins"
+                 data-side-pagination="server"
+                 data-pagination="true"
+                 data-page-size="10"
+                 data-search="true"
+                 data-show-export="false"
+                 data-show-columns="true"
+                 data-sort-order="asc"
+                 data-sort-name="name"
+                 data-url="{{ route('api.assets.list-upcoming', ['action' => 'checkins', 'upcoming_status' => 'overdue']) }}">
+            <thead>
+              <tr>
+                <th data-field="name" data-sortable="true" data-formatter="hardwareLinkFormatter">Name</th>
+                <th data-field="assigned_to" data-sortable="false" data-formatter="polymorphicItemFormatter">Check-out to</th>
+                <th data-field="expected_checkin" data-sortable="true" data-formatter="dateDisplayFormatter">Expected Check-in Date</th>
+                <th data-field="category" data-sortable="true" data-formatter="categoriesLinkObjFormatter">Category</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <a href="{{ route('assets.checkins.due') }}" class="btn btn-primary">View full page</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 @stop
 

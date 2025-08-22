@@ -219,7 +219,7 @@ trait Loggable
      * @since  [v4.0]
      * @return \App\Models\Actionlog
      */
-    public function logAudit($note, $location_id, $filename = null, $originalValues = [])
+    public function logAudit($note, $location_id, $filename = null, $originalValues = [], $condition = null)
     {
 
         $log = new Actionlog;
@@ -267,6 +267,10 @@ trait Loggable
         $log->created_by = auth()->id();
         $log->filename = $filename;
         $log->action_date = date('Y-m-d H:i:s');
+        // Save condition if provided
+        if (!is_null($condition)) {
+            $log->condition = (int) $condition;
+        }
         $log->logaction('audit');
 
         $params = [

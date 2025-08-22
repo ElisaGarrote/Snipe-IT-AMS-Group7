@@ -149,4 +149,14 @@ class GroupsController extends Controller
     {
       return view('groups/view', compact('group'));
     }
+
+    public function getPermissions($id)
+    {
+        $group = Group::findOrFail($id);
+
+        // Decode the JSON into an associative array
+        $permissions = json_decode($group->permissions, true) ?? [];
+
+        return response()->json($permissions);
+    }
 }

@@ -127,6 +127,21 @@ class AssetModelPresenter extends Presenter
                 'visible' => true,
             ],
             [
+                'field' => 'model_warranty', // matches the DB/model property
+                'searchable' => true,
+                'sortable' => true,
+                'visible' => true, 
+                'title' => 'Warranty',
+            ],
+            [
+                'field' => 'warranty_expires', //"
+                'searchable' => false,
+                'sortable' => false,
+                'visible' => false,
+                'title' => trans('admin/hardware/form.warranty_expires'),
+                'formatter' => 'dateDisplayFormatter',
+            ],
+            [
                 'field' => 'fieldset',
                 'searchable' => false,
                 'sortable' => true,

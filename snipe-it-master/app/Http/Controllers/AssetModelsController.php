@@ -73,6 +73,7 @@ class AssetModelsController extends Controller
         $model = new AssetModel;
 
         $model->eol = $request->input('eol');
+        $model->model_warranty = $request->input('model_warranty');
         $model->depreciation_id = $request->input('depreciation_id');
         $model->name = $request->input('name');
         $model->model_number = $request->input('model_number');
@@ -135,6 +136,7 @@ class AssetModelsController extends Controller
         $model = $request->handleImages($model);
         $model->depreciation_id = $request->input('depreciation_id');
         $model->eol = $request->input('eol');
+        $model->model_warranty = $request->input('model_warranty');
         $model->name = $request->input('name');
         $model->model_number = $request->input('model_number');
         $model->min_amt = $request->input('min_amt');

@@ -65,7 +65,7 @@ class PredefinedKitsController extends Controller
             return redirect()->back()->withInput()->withErrors($kit->getErrors());
         }
 
-        return redirect()->route('kits.index')->with('success', trans('admin/kits/general.kit_created'));
+        return redirect()->route('kits.edit', $kit->id)->with('success', trans('admin/kits/general.kit_created'));
     }
 
     /**

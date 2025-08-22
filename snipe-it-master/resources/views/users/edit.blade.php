@@ -56,10 +56,27 @@
     .table > tbody > tr > td.permissions-item {
       padding: 1px;
       padding-left: 8px;
+      border-top: none;
     }
 
     .header-name {
       cursor: pointer;
+    }
+
+    .permissions-row:has(input[type="radio"][value="1"]:checked) {
+        background-color: #d4edda !important;
+        border-left: 4px solid #28a745 !important;
+    }
+    .permissions-row:has(input[type="radio"][value="1"]:checked) td {
+        background-color: #d4edda !important;
+    }
+
+    .permission-inherited-grant {
+        background-color: #d4edda !important; /* Light green background */
+        border-left: 4px solid #28a745 !important; /* Green left border */
+    }
+    .permission-inherited-grant td {
+        background-color: #d4edda !important;
     }
 
 </style>
@@ -747,5 +764,141 @@ $(document).ready(function() {
 });
 </script>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Multi-select for groups
+    const groupSelect = document.querySelector('select[name="groups[]"]');
+
+    if (!groupSelect) {
+        console.warn('Group multi-select not found: select[name="groups[]"]');
+        return;
+    }
+
+    // Highlight inherited permissions
+    function applyInheritedHighlights(groupPerms) {
+        // 1) Clear previous inherited highlights
+        document.querySelectorAll('tr.permissions-row').forEach(row => {
+            row.classList.remove('permission-inherited-grant');
+        });
+
+        // 2) For each permission from the group…
+        Object.keys(groupPerms).forEach(permName => {
+            const radios = document.querySelectorAll(`input[name="permission[${permName}]"]`);
+            if (!radios.length) return;
+
+            const row = radios[0].closest('tr.permissions-row');
+            if (!row) return;
+
+            const selected = Array.from(radios).find(r => r.checked);
+            const isInherit = selected && selected.value === '0';
+
+            const groupGrants = (groupPerms[permName] === '1' || groupPerms[permName] == 1);
+
+            // If user is inheriting AND group grants => highlight row
+            if (isInherit && groupGrants) {
+                row.classList.add('permission-inherited-grant');
+            }
+        });
+
+        // Update headers after applying highlights
+        updateHeaderHighlights();
+    }
+
+    // Update header highlight state
+    function updateHeaderHighlights() {
+        document.querySelectorAll('tbody.permissions-group').forEach(group => {
+            const rows = group.querySelectorAll('tr.permissions-row:not(.header-row)');
+            if (!rows.length) return;
+
+            const allGranted = Array.from(rows).every(r =>
+                r.classList.contains('permission-inherited-grant') ||
+                r.querySelector('input[value="1"]:checked')
+            );
+
+            const header = group.querySelector('tr.header-row');
+            if (header) {
+                if (allGranted) {
+                    header.classList.add('permission-inherited-grant');
+                } else {
+                    header.classList.remove('permission-inherited-grant');
+                }
+            }
+        });
+    }
+
+    // Wire child radios (individual permissions)
+    function wireRadioReapply() {
+        document.querySelectorAll('input[name^="permission["][type="radio"]').forEach(r => {
+            r.addEventListener('change', () => {
+                const selectedIds = Array.from(groupSelect.selectedOptions).map(o => o.value).filter(Boolean);
+                if (!selectedIds.length) {
+                    updateHeaderHighlights();
+                    return;
+                }
+                const groupId = selectedIds[0];
+                fetch(`/groups/${groupId}/permissions`)
+                    .then(res => res.json())
+                    .then(data => applyInheritedHighlights(data))
+                    .catch(err => console.error('Reapply fetch error:', err));
+            });
+        });
+    }
+    wireRadioReapply();
+
+    // Wire header radios (Grant/Deny/Inherit for an entire section like Asset, Consumables, etc.)
+    function wireHeaderRadios() {
+        document.querySelectorAll('tr.header-row input[type=radio]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                const group = radio.closest('tbody.permissions-group');
+                if (!group) return;
+
+                const headerValue = radio.value; // "1", "-1", or "0"
+                const area = radio.getAttribute('data-checker-group'); // str_slug($area)
+
+                // Apply to all children radios in this group
+                const childRadios = group.querySelectorAll(`.radiochecker-${area}[value="${headerValue}"]`);
+                childRadios.forEach(r => {
+                    r.checked = true;
+                    r.dispatchEvent(new Event('change')); // trigger normal logic
+                });
+
+                // Refresh highlights
+                const selectedIds = Array.from(groupSelect.selectedOptions).map(o => o.value).filter(Boolean);
+                if (selectedIds.length) {
+                    fetch(`/groups/${selectedIds[0]}/permissions`)
+                        .then(res => res.json())
+                        .then(data => applyInheritedHighlights(data));
+                } else {
+                    updateHeaderHighlights();
+                }
+            });
+        });
+    }
+    wireHeaderRadios();
+
+    // Handle group dropdown change
+    groupSelect.addEventListener('change', function () {
+        const selectedIds = Array.from(this.selectedOptions).map(o => o.value).filter(Boolean);
+        if (!selectedIds.length) {
+            document.querySelectorAll('tr.permissions-row').forEach(row => {
+                row.classList.remove('permission-inherited-grant');
+            });
+            updateHeaderHighlights();
+            return;
+        }
+
+        const groupId = selectedIds[0];
+        fetch(`/groups/${groupId}/permissions`)
+            .then(response => response.json())
+            .then(data => applyInheritedHighlights(data))
+            .catch(error => console.error('Error fetching group permissions:', error));
+    });
+
+    // Trigger once if a group is already selected on load
+    if (groupSelect.selectedOptions && groupSelect.selectedOptions.length) {
+        groupSelect.dispatchEvent(new Event('change'));
+    }
+});
+</script>
 
 @stop

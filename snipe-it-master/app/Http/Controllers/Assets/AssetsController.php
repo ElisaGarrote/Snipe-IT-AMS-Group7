@@ -925,6 +925,11 @@ class AssetsController extends Controller
 
         $this->authorize('audit', Asset::class);
 
+        // Validate required condition (1-10)
+        $request->validate([
+            'condition' => 'required|integer|min:1|max:10',
+        ]);
+
         session()->put('redirect_option', $request->get('redirect_option'));
         session()->put('other_redirect', 'audit');
 
@@ -1003,7 +1008,7 @@ class AssetsController extends Controller
                 $file_name = $request->handleFile('private_uploads/audits/', 'audit-'.$asset->id, $request->file('image'));
             }
 
-            $asset->logAudit($request->input('note'), $request->input('location_id'), $file_name, $originalValues);
+            $asset->logAudit($request->input('note'), $request->input('location_id'), $file_name, $originalValues, $request->input('condition'));
             return Helper::getRedirectOption($request, $asset->id, 'Assets')->with('success', trans('admin/hardware/message.audit.success'));
         }
 
