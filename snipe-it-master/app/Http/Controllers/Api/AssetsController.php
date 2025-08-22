@@ -1091,11 +1091,6 @@ class AssetsController extends Controller
     {
         $this->authorize('audit', Asset::class);
 
-        // Validate required condition field
-        $request->validate([
-            'condition' => 'required|integer|min:1|max:10',
-        ]);
-
         $settings = Setting::getSettings();
         $dt = Carbon::now()->addMonths($settings->audit_interval)->toDateString();
 
@@ -1127,7 +1122,6 @@ class AssetsController extends Controller
                 'id' => $asset->id,
                 'asset_tag' => $asset->asset_tag,
                 'note' => $request->input('note'),
-                'condition' => $request->input('condition'),
                 'next_audit_date' => Helper::getFormattedDateObject($asset->next_audit_date),
             ];
 
@@ -1196,7 +1190,7 @@ class AssetsController extends Controller
              * We have to invoke this manually because of the unsetEventDispatcher() above.)
              */
             if ($asset->isValid() && $asset->save()) {
-                $asset->logAudit(request('note'), request('location_id'), null, $originalValues, request('condition'));
+                $asset->logAudit(request('note'), request('location_id'), null, $originalValues);
                 return response()->json(Helper::formatStandardApiResponse('success', $payload, trans('admin/hardware/message.audit.success')));
             }
 

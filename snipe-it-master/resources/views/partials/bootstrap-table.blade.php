@@ -421,7 +421,7 @@
                 }
 
 
-
+                
                 actions += '<a href="{{ config('app.url') }}/' + dest + '/' + row.id + '" '
                     + ' class="actions btn btn-danger btn-sm delete-asset" data-tooltip="true"  '
                     + ' data-toggle="modal" '
@@ -731,30 +731,11 @@
         return frags.join(' ');
     }
 
-
-        function auditConditionFormatter(value, row) {
-            if (!value) { return ''; }
-            var labels = {
-                1: '1 - Unserviceable',
-                2: '2 - Poor',
-                3: '3 - Needs Maintenance',
-                4: '4 - Functional',
-                5: '5 - Fair',
-                6: '6 - Good',
-                7: '7 - Very Good',
-                8: '8 - Excellent',
-                9: '9 - Like New',
-                10: '10 - Brand New'
-            };
-            var v = parseInt(value, 10);
-            return labels[v] || (v ? v.toString() : '');
-        }
-
     // Show the warning if below min qty
     function minAmtFormatter(row, value) {
 
         if ((row) && (row!=undefined)) {
-
+            
             if (value.remaining <= value.min_amt) {
                 return  '<span class="text-danger text-bold" data-tooltip="true" title="{{ trans('admin/licenses/general.below_threshold_short') }}"><x-icon type="warning" class="text-yellow" /> ' + value.min_amt + '</span>';
             }
@@ -763,7 +744,7 @@
         return '--';
     }
 
-
+    
 
     // Create a linked phone number in the table list
     function phoneFormatter(value) {
@@ -1067,10 +1048,10 @@
         if (Array.isArray(data)) {
             var field = this.field;
             var total_sum = data.reduce(function(sum, row) {
-
+                
                 return (sum) + (cleanFloat(row[field]) || 0);
             }, 0);
-
+            
             return numberWithCommas(total_sum.toFixed(2));
         }
         return 'not an array';
@@ -1078,7 +1059,7 @@
 
     function sumFormatterQuantity(data){
         if(Array.isArray(data)) {
-
+            
             // Prevents issues on page load where data is an empty array
             if(data[0] == undefined){
                 return 0.00
@@ -1102,7 +1083,7 @@
     }
 
     function numberWithCommas(value) {
-
+        
         if ((value) && ("{{$snipeSettings->digit_separator}}" == "1.234,56")){
             var parts = value.toString().split(".");
              parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -1161,5 +1142,5 @@
     });
 
 </script>
-
+    
 @endpush

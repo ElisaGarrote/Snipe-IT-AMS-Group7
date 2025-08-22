@@ -231,12 +231,31 @@
         </div>
         </a>
     </div><!-- ./col -->
+@php
+    // Combined Low Stock counts for Assets (by model), Accessories, and Consumables
+    $lowAssetModelsCount = \App\Models\AssetModel::withCount(['assets as available_qty' => function($q){
+        $q->whereNull('deleted_at');
+    }])
+    ->whereNotNull('min_amt')
+    ->where('min_amt', '>', 0)
+    ->get()
+    ->filter(function($m){ return (int) ($m->available_qty ?? 0) <= (int) $m->min_amt; })
+    ->count();
+
+    $lowAccessoriesCount = \App\Models\Accessory::whereNotNull('min_amt')->where('min_amt', '>', 0)
+        ->get()->filter(function($a){ return (int) $a->numRemaining() <= (int) $a->min_amt; })->count();
+
+    $lowConsumablesCount = \App\Models\Consumable::whereNotNull('min_amt')->where('min_amt', '>', 0)
+        ->get()->filter(function($c){ return (int) $c->numRemaining() <= (int) $c->min_amt; })->count();
+
+    $lowStockTotal = $lowAssetModelsCount + $lowAccessoriesCount + $lowConsumablesCount;
+@endphp
 
     <!-- Low Stock card -->
     <div class="five-col col-xs-6">
         <div class="dashboard small-box" style="background-color:#FF4040;">
             <div class="inner">
-                <h3>{{ number_format(\App\Models\Consumable::whereColumn('qty', '<=', 'min_amt')->where('min_amt', '>', 0)->count()) }}</h3>
+                <h3>{{ number_format($lowStockTotal) }}</h3>
                 <p>{{ trans('general.low_stock') }}</p>
             </div>
             <div class="icon" aria-hidden="true">
