@@ -177,6 +177,7 @@
 
     <!-- Overdue Audit card -->
     <div class="five-col col-xs-6">
+        <a href="{{ route('assets.audit.due') }}#overdue">
         <div class="dashboard small-box bg-red">
             <div class="inner">
                 <h3>{{ number_format(\App\Models\Asset::where('next_audit_date', '<', now())->whereNotNull('next_audit_date')->count()) }}</h3>
@@ -190,10 +191,12 @@
                 <x-icon type="arrow-circle-right" />
             </span>
         </div>
+        </a>
     </div><!-- ./col -->
 
     <!-- Reached EoL card -->
     <div class="five-col col-xs-6">
+        <a href="{{ route('hardware.index', ['eol_reached' => 'true']) }}">
         <div class="dashboard small-box" style="background-color:#DC143C;">
             <div class="inner">
                 <h3>{{ number_format(\App\Models\Asset::whereNotNull('asset_eol_date')->where('asset_eol_date', '<=', now())->count()) }}</h3>
@@ -207,10 +210,12 @@
                 <x-icon type="arrow-circle-right" />
             </span>
         </div>
+        </a>
     </div><!-- ./col -->
 
     <!-- Expired Warranty card -->
     <div class="five-col col-xs-6">
+        <a href="{{ route('hardware.index', ['warranty_expired' => 'true']) }}">
         <div class="dashboard small-box" style="background-color:#B22222;">
             <div class="inner">
                 <h3>{{ number_format(\App\Models\Asset::whereNotNull('warranty_months')->whereRaw('DATE_ADD(purchase_date, INTERVAL warranty_months MONTH) < NOW()')->count()) }}</h3>
@@ -224,6 +229,7 @@
                 <x-icon type="arrow-circle-right" />
             </span>
         </div>
+        </a>
     </div><!-- ./col -->
 
     <!-- Low Stock card -->
