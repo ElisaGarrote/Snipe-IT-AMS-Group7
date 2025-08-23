@@ -180,7 +180,7 @@
         <a href="{{ route('assets.audit.due') }}#overdue">
         <div class="dashboard small-box bg-red">
             <div class="inner">
-                <h3>{{ number_format(\App\Models\Asset::where('next_audit_date', '<', now())->whereNotNull('next_audit_date')->count()) }}</h3>
+                <h3>{{ number_format(\App\Models\Asset::OverdueForAudit()->count()) }}</h3>
                 <p>{{ trans('general.overdue_audit') }}</p>
             </div>
             <div class="icon" aria-hidden="true">
