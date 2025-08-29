@@ -208,6 +208,17 @@ class AssetsController extends Controller
          * End handling due and overdue audits and checkin dates
          */
 
+        // Dashboard shortcut filters: reached EoL and expired warranty
+        if ($request->input('eol_reached') === 'true') {
+            $assets->whereNotNull('assets.asset_eol_date')
+                   ->whereDate('assets.asset_eol_date', '<=', Carbon::now()->format('Y-m-d'));
+        }
+
+        if ($request->input('warranty_expired') === 'true') {
+            $assets->whereNotNull('assets.warranty_months')
+                   ->whereNotNull('assets.purchase_date')
+                   ->whereRaw('DATE_ADD(assets.purchase_date, INTERVAL assets.warranty_months MONTH) < NOW()');
+        }
 
         // This is used by the sidenav, mostly
 
