@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('models', function (Blueprint $table) {
-            //
-            $table->integer('model_warranty')->nullable(); // Add warranty column
-
-        });
+        if (!Schema::hasColumn('models', 'model_warranty')) {
+            Schema::table('models', function (Blueprint $table) {
+                $table->integer('model_warranty')->nullable(); // Add warranty column
+            });
+        }
     }
 
     /**

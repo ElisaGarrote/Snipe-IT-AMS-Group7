@@ -117,4 +117,16 @@
 
 @section('moar_scripts')
     @include('partials.bootstrap-table')
+    <script nonce="{{ csrf_token() }}">
+      $(function(){
+        function activateHashTab(){
+          var hash = window.location.hash;
+          if(hash && $('.nav-tabs a[href="'+hash+'"]').length){
+            $('.nav-tabs a[href="'+hash+'"]').tab('show');
+          }
+        }
+        activateHashTab();
+        $(window).on('hashchange', activateHashTab);
+      });
+    </script>
 @stop

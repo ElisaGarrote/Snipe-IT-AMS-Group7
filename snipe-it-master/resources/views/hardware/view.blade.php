@@ -1389,6 +1389,7 @@
                                     <th data-visible="true" data-field="created_at" data-sortable="true" data-formatter="dateDisplayFormatter">{{ trans('general.date') }}</th>
                                     <th data-visible="true" data-field="admin" data-formatter="usersLinkObjFormatter">{{ trans('general.created_by') }}</th>
                                     <th class="col-sm-2" data-field="file" data-sortable="true" data-visible="false" data-formatter="fileUploadNameFormatter">{{ trans('general.file_name') }}</th>
+                                    <th data-field="condition" data-visible="true" data-sortable="false" data-formatter="auditConditionFormatter">Condition</th>
                                     <th data-field="note">{{ trans('general.notes') }}</th>
                                     <th data-visible="false" data-field="file" data-visible="false"  data-formatter="fileUploadFormatter">{{ trans('general.download') }}</th>
                                     <th data-field="log_meta" data-visible="true" data-formatter="changeLogFormatter">{{ trans('admin/hardware/table.changed')}}</th>

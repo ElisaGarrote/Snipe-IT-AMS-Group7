@@ -81,6 +81,35 @@
 
                         </div>
 
+                        <!-- Condition -->
+                        <div class="form-group">
+                            <label for="condition" class="col-sm-3 control-label">Condition</label>
+                            <div class="col-md-8 col-sm-11">
+                                <x-input.select
+                                    name="condition"
+                                    id="condition"
+                                    :options="[
+                                        '' => 'Select asset condition...',
+                                        '1' => '1 - Unserviceable',
+                                        '2' => '2 - Poor',
+                                        '3' => '3 - Needs Maintenance',
+                                        '4' => '4 - Functional',
+                                        '5' => '5 - Fair',
+                                        '6' => '6 - Good',
+                                        '7' => '7 - Very Good',
+                                        '8' => '8 - Excellent',
+                                        '9' => '9 - Like New',
+                                        '10' => '10 - Brand New',
+                                    ]"
+                                    :selected="old('condition')"
+                                    class="condition-select"
+                                    style="width:100%;"
+                                    aria-label="condition"
+                                    required
+                                />
+                                {!! $errors->first('condition', '<span class="alert-msg" aria-hidden="true"><i class="fas fa-times" aria-hidden="true"></i> :message</span>') !!}
+                            </div>
+                        </div>
 
                         <!-- Show last audit date -->
                         <div class="form-group">
@@ -114,7 +143,6 @@
                                  <p class="help-block">{!! trans('general.next_audit_date_help') !!}</p>
                             </div>
                         </div>
-
 
                         <!-- Note -->
                         <div class="form-group{{ $errors->has('note') ? ' has-error' : '' }}">

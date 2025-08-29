@@ -80,10 +80,14 @@
                 id="{{ request()->has('status') ? e(request()->input('status')) : ''  }}assetsListingTable"
                 class="table table-striped snipe-table"
                 data-url="{{ route('api.assets.index',
-                    array('status' => e(Request::get('status')),
-                    'order_number'=>e(strval(Request::get('order_number'))),
-                    'company_id'=>e(Request::get('company_id')),
-                    'status_id'=>e(Request::get('status_id')))) }}"
+                    array_filter([
+                        'status' => e(Request::get('status')),
+                        'order_number'=> e(strval(Request::get('order_number'))),
+                        'company_id'=> e(Request::get('company_id')),
+                        'status_id'=> e(Request::get('status_id')),
+                        'eol_reached' => request('eol_reached'),
+                        'warranty_expired' => request('warranty_expired'),
+                    ])) }}"
                 data-export-options='{
                 "fileName": "export{{ (Request::has('status')) ? '-'.str_slug(Request::get('status')) : '' }}-assets-{{ date('Y-m-d') }}",
                 "ignoreColumn": ["actions","image","change","checkbox","checkincheckout","icon"]
