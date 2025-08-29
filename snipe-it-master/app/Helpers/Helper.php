@@ -817,7 +817,7 @@ class Helper
             $total_owned = $asset->where('model_id', '=', $asset_model->id)->count();
             $avail = $asset->where('model_id', '=', $asset_model->id)->whereNull('assigned_to')->count();
 
-            if ($avail < ($asset_model->min_amt) + $alert_threshold) {
+            if ($avail < ($asset_model->min_amt)) {
                 if ($avail > 0) {
                     $percent = number_format((($avail / $total_owned) * 100), 0);
                 } else {
