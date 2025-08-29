@@ -200,7 +200,7 @@ return [
     'min_amt'				=> 'Min. QTY',
     'min_amt_help'          => 'Minimum number of items that should be available before an alert gets triggered. Leave Min. QTY blank if you do not want to receive alerts for low inventory.',
     'model_no'				=> 'Model No.',
-    'months'				=> 'months',
+    'month'				    => 'months',
     'moreinfo'				=> 'More Info',
     'name'					=> 'Name',
     'new_password'          => 'New Password',

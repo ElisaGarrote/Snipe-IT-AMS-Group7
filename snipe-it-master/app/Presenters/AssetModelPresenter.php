@@ -227,6 +227,11 @@ class AssetModelPresenter extends Presenter
         return '';
     }
 
+    public static function warrantyFormatter($value, $row)
+    {
+        return $value . ' ' . ($value == 1 ? trans('general.month') : trans('general.months'));
+    }
+
     /**
      * Pretty name for this model
      * @return string

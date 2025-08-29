@@ -679,7 +679,7 @@ dir="{{ Helper::determineLanguageDirection() }}">
                                     @endcan
 
                                     @can('view', \App\Models\AssetModel::class)
-                                        <li {{!! (Request::is('models') ? ' class="active"' : '') !!}}>
+                                        <li {!! (Request::is('models') ? ' class="active"' : '') !!}>
                                             <a href="{{ route('models.index') }}">
                                                 {{ trans('general.asset_models') }}
                                             </a>
@@ -687,7 +687,7 @@ dir="{{ Helper::determineLanguageDirection() }}">
                                     @endcan
 
                                     @can('view', \App\Models\Category::class)
-                                        <li {{!! (Request::is('categories') ? ' class="active"' : '') !!}}>
+                                        <li {!! (Request::is('categories') ? ' class="active"' : '') !!}>
                                             <a href="{{ route('categories.index') }}">
                                                 {{ trans('general.categories') }}
                                             </a>
@@ -695,7 +695,7 @@ dir="{{ Helper::determineLanguageDirection() }}">
                                     @endcan
 
                                     @can('view', \App\Models\Manufacturer::class)
-                                        <li {{!! (Request::is('manufacturers') ? ' class="active"' : '') !!}}>
+                                        <li {!! (Request::is('manufacturers') ? ' class="active"' : '') !!}>
                                             <a href="{{ route('manufacturers.index') }}">
                                                 {{ trans('general.manufacturers') }}
                                             </a>
