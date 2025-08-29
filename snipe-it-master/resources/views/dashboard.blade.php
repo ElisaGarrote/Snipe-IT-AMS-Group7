@@ -228,9 +228,9 @@
 
     <!-- Low Stock card -->
     <div class="five-col col-xs-6">
-        <div class="dashboard small-box" style="background-color:#FF4040;">
+        <div class="dashboard small-box" style="background-color:#FF4040; cursor:pointer;" id="lowStockTrigger" data-toggle="modal" data-target="#lowStockModal">
             <div class="inner">
-                <h3>{{ number_format(\App\Models\Consumable::whereColumn('qty', '<=', 'min_amt')->where('min_amt', '>', 0)->count()) }}</h3>
+                <h3>{{ count(Helper::checkLowInventory()) }}</h3>
                 <p>{{ trans('general.low_stock') }}</p>
             </div>
             <div class="icon" aria-hidden="true">
@@ -590,7 +590,6 @@
 
 @endif
 
-<!-- Overdue for Check-in Modal -->
 <div class="modal fade" id="overdueCheckinModal" tabindex="-1" role="dialog" aria-labelledby="overdueCheckinModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -629,6 +628,46 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <a href="{{ route('assets.checkins.due') }}" class="btn btn-primary">View full page</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Low Stock Modal -->
+<div class="modal fade" id="lowStockModal" tabindex="-1" role="dialog" aria-labelledby="lowStockModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="lowStockModalLabel">Low Stock Items</h4>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+            <table id="lowStockTable"
+                class="table table-striped snipe-table"
+                data-cookie-id-table="dashboardLowStock"
+                data-id-table="dashboardLowStock"
+                data-side-pagination="server"
+                data-pagination="true"
+                data-page-size="5"
+                data-search="true"
+                data-show-export="false"
+                data-show-columns="true"
+                data-sort-order="asc"
+                data-sort-name="name"
+                data-url="{{ route('api.lowstock.list') }}">
+                <thead>
+                <tr>
+                    <th data-field="name" data-sortable="true" data-formatter="linkFormatter">Name</th>
+                    <th data-field="min_amt" data-sortable="true">Minimum Quantity</th>
+                    <th data-field="remaining" data-sortable="true">Available</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -698,4 +737,12 @@
         last = current;
     });
 </script>
+
+<!-- Added Script for Link Formatting-->
+<script>
+    function linkFormatter(value, row) {
+        return `<a href="${row.url}" target="_blank">${value}</a>`;
+    }
+</script>
+
 @endpush

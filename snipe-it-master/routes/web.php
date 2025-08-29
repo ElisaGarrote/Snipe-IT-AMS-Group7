@@ -24,6 +24,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StatuslabelsController;
 use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\ViewAssetsController;
+use App\Http\Controllers\LowStockController;
 use App\Livewire\Importer;
 use App\Models\ReportTemplate;
 use Illuminate\Support\Facades\Route;
@@ -105,6 +106,8 @@ Route::group(['middleware' => 'auth'], function () {
 Route::group(['middleware' => 'auth', 'prefix' => 'modals'], function () {
     Route::get('{type}/{itemId?}', [ModalController::class, 'show'] )->name('modal.show');
 });
+Route::get('/api/lowstock/list', [LowStockController::class, 'list'])->name('api.lowstock.list');
+Route::get('/lowstock/fullpage', [LowStockController::class, 'fullPage'])->name('lowstock.fullpage');
 
 /*
 |--------------------------------------------------------------------------
