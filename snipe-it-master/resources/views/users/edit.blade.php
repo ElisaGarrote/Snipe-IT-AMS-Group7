@@ -598,7 +598,6 @@
                                                 <select
                                                     name="groups[]"
                                                     id="groups"
-                                                    multiple
                                                     class="form-control">
                                                     @foreach ($groups as $id => $group)
                                                         <option value="{{ $id }}" {{ $userGroups->keys()->contains($id) ? 'selected' : '' }}>
@@ -902,15 +901,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// Initialize Select2 for group dropdown
-const groupSelectEl = $('#groups');
-if (groupSelectEl.length) {
-    groupSelectEl.select2({
+$(document).ready(function() {
+    $('#groups').select2({
         placeholder: 'Select a group',
-        allowClear: true, // user can unselect all
-        width: '100%'     // ensures it fits Bootstrap grid
+        allowClear: true,
+        width: '100%' // optional to match Bootstrap layout
     });
-}
+});
 
 </script>
 
