@@ -24,7 +24,7 @@
                         <div class="col-md-4 col-xs-12"><label for="modal-quantity_id">{{ trans('general.quantity') }}:
                             </label></div>
                         <div class="col-md-8 col-xs-12 required">
-                            <input type='text' name='quantity' id='modal-quantity_id' class="form-control" value="1">
+                            <input type='number' name='quantity' id='modal-quantity_id' class="form-control" value="1" min="1" step="1" pattern="[0-9]+" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                         </div>
                 </div>
 

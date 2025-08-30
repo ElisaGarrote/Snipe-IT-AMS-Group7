@@ -78,6 +78,12 @@
     .permission-inherited-grant td {
         background-color: #d4edda !important;
     }
+    .select2-container--default .select2-selection--multiple {
+        border: 1px solid #d2d6de;
+        border-radius: 0;
+        height: 34px;
+        padding: 6px 12px;
+    }
 
 </style>
 
@@ -590,20 +596,15 @@
                                           @else
                                                <div class="controls">
                                                 <select
-                                                        name="groups[]"
-                                                        aria-label="groups[]"
-                                                        id="groups[]"
-                                                        multiple="multiple"
-                                                        class="form-control">
-
+                                                    name="groups[]"
+                                                    id="groups"
+                                                    class="form-control">
                                                     @foreach ($groups as $id => $group)
-                                                        <option value="{{ $id }}"
-                                                                {{ ($userGroups->keys()->contains($id) ? ' selected="selected"' : '') }}>
+                                                        <option value="{{ $id }}" {{ $userGroups->keys()->contains($id) ? 'selected' : '' }}>
                                                             {{ $group }}
                                                         </option>
                                                     @endforeach
                                                 </select>
-
                                             <p class="help-block">
                                               {{ trans('admin/users/table.groupnotes') }}
                                             </p>
@@ -899,6 +900,15 @@ document.addEventListener('DOMContentLoaded', function () {
         groupSelect.dispatchEvent(new Event('change'));
     }
 });
+
+$(document).ready(function() {
+    $('#groups').select2({
+        placeholder: 'Select a group',
+        allowClear: true,
+        width: '100%' // optional to match Bootstrap layout
+    });
+});
+
 </script>
 
 @stop
